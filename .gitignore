@@ -1,0 +1,4 @@
+static/images/database
+.vscode
+__pycache__/
+database.db

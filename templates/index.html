@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8'>
+
+    <link rel='icon' href='static/images/website_icon.png'>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <link rel='stylesheet' href='/static/stylesheet.css'>
+
+    <title>Foods</title>
+    <meta name='description' content='RBC Take Home Assignment'>
+    <meta name='author' content='Josh Cowan'>
+
+    <script>
+        function formOpen(div_name) {
+            document.getElementById(div_name).style.display = 'block';
+        }
+
+        function formClose(div_name, form_name) {
+            document.getElementById(div_name).style.display = 'none';
+            document.getElementById(form_name).reset();
+        }
+    </script>
+
+</head>
+{% block main %}
+
+<body>
+    <div>
+        <img src='static/images/website_icon.png' alt='logo' style='width: 45px; height: 45px; float: left;'>
+        <h1 style='margin: 10px left;'> Food Items</h1>
+    </div>
+
+
+    <table class='table'>
+        <tr>
+            <th scope='col'>ID</th>
+            <th scope='col'>Food</th>
+            <th scope='col'>Description</th>
+            <th scope='col'>Type</th>
+        </tr>
+        {% for food in foods %}
+        <tr>
+
+            <td>{{food['id']}}</td>
+            <td><a href="#">
+                    <div class='hover-img'>{{food['food']}}<span><img src={{food['image_loc']}} alt={{food['food']}}
+                                height='200'></span></div>
+                </a></td>
+            <td>{{food['description']}}</td>
+            <td>{{food['food_type']}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button type="button" class="btn btn-primary" onclick='formOpen("add_form")'>Add Item</button>
+    <div class='form-popup' id='add_form'>
+        <form id='add_form_actual' action='/' method='POST'>
+            <h2>Add an Item</h2>
+
+            <table>
+                <tr>
+                    <td align='right'> <label><b>Food Name:</b></label></td>
+                    <td align='left'> <input type='text' placeholder='ex: Apple Pie' name='food' required><br></td>
+                </tr>
+
+                <tr>
+                    <td align='right'><label><b>Description:</b></label></td>
+                    <td align='left'> <input type='text' placeholder='ex: Created with apples.' name='description'><br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align='right'><label><b>Type:</b></label></td>
+                    <td align='left'><input type='text' placeholder='ex: Dessert' name='food_type'><br></td>
+
+                </tr>
+
+                <tr>
+                    <td align='right'><label><b>Image</b></label></td>
+                    <td align='left'><input type='text' placeholder='image link' name='image'><br></td>
+
+                </tr>
+            </table>
+
+            <button type='submit' class='btn btn-success'>Submit</button>
+            <button type='button' class='btn btn-danger'
+                onclick='formClose("add_form", "add_form_actual")'>Cancel</button>
+
+        </form>
+    </div>
+</body>
+
+</html>
+
+{% endblock %}

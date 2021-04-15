@@ -1,0 +1,33 @@
+body {
+  background-color: #fff;
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+}
+
+a .hover-img {
+  position: relative;
+}
+a .hover-img span {
+  position: absolute;
+  left: -10000px;
+  top: -10000px;
+  z-index: 2;
+}
+a:hover .hover-img span {
+  top: 33px;
+  left: 0;
+}
+
+form {
+  box-sizing: border-box;
+  position: fixed;
+  border: 3px solid #888;
+  z-index: 1;
+  max-width: 350px;
+  padding: 5px;
+}
+
+#add_form {
+  display: none;
+}
