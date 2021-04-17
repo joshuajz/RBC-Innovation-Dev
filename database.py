@@ -89,6 +89,19 @@ def return_foods():
     return foods
 
 
+def remove_item(food):
+    """Removes an item from the database given the name of the food"""
+
+    # Database connection
+    database = database_connection()
+
+    # Deletes from the database
+    database["db"].execute("DELETE FROM food WHERE food = (?)", (food,))
+    database["con"].commit()
+
+    return True
+
+
 def find_item(food_id=None, food=None):
     """Find's an item with an id or food name."""
 

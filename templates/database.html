@@ -67,12 +67,19 @@
         {% endfor %}
     </table>
 
-    <!-- Handles the "Add" button and it's corrosponding form -->
 
-    <!-- Button to add an item, displays the form on click -->
-    <button type="button" class="btn btn-primary" onclick='formOpen("add_form")'>Add Item</button>
+    <div>
+        <!-- The buttons will also close the "other" form, if it's open -->
+        <!-- Button to add an item, displays the form on click -->
+        <button type="button" class="btn btn-primary" onclick='formOpen("add_form");formClose("remove_form")'>Add
+            Item</button>
+        <!-- Button to remove an item, displays the form on click -->
+        <button type="button" class="btn btn-danger" onclick='formOpen("remove_form");formClose("add_form")'>Remove
+            Item</button>
+    </div>
 
-    <!-- Popup form -->
+
+    <!-- "Add Item" Popup form -->
     <div class='form-popup' id='add_form'>
         <form id='add_form_actual' action='/database' method='POST' class='add_form'>
             <h2>Add an Item</h2>
@@ -130,8 +137,32 @@
             <button type='submit' class='btn btn-success'>Submit</button>
 
             <!-- Cancel button closes the form -->
-            <button type='button' class='btn btn-danger'
+            <button type='button' class='btn btn-warning'
                 onclick='formClose("add_form", "add_form_actual")'>Cancel</button>
+
+        </form>
+    </div>
+
+
+
+    <!-- Popup form -->
+    <div class='form-popup' id='remove_form'>
+        <form id='remove_form_actual' action='/database' method='POST' class='add_form'>
+            <h2>Remove an Item</h2>
+
+            <select name='food_select' id='food_select'>
+                {% for food in foods %}
+                <option value={{food['food']}}>{{food['food']}}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Button to submit, and a button to cancel. -->
+            <!-- Submit button doesn't close the form, as the user will be redirected back to the database.html part of the site -->
+            <button type='submit' class='btn btn-success'>Submit</button>
+
+            <!-- Cancel button closes the form -->
+            <button type='button' class='btn btn-warning'
+                onclick='formClose("remove_form", "remove_form_actual")'>Cancel</button>
 
         </form>
     </div>

@@ -5,6 +5,7 @@ from database import (
     pull_items,
     return_foods,
     find_item,
+    remove_item,
 )
 from image import download_image
 from flask import Flask, render_template, request
@@ -70,10 +71,10 @@ def database_page():
             "database.html", foods=pull_items(), active_page="database"
         )
     else:
-        # POST method -> Form has been submitted
+        # POST method -> "ADD" Form has been submitted
 
         # Pulls the 'keys' or items in the form
-        values = request.form.keys()
+        values = list(request.form.keys())
 
         # Checks to ensure all of the values required are present
         if (
@@ -84,9 +85,6 @@ def database_page():
             and "recipe" in values
             and "recipe_link" in values
         ):
-            # Pulls all of the form's values or items
-            form_submissions = request.form.items()
-
             # Assigns variables to all of the form's items
             food, description, food_type, image_link, recipe, recipe_link = (
                 request.form.get("food"),
@@ -134,6 +132,17 @@ def database_page():
             return render_template(
                 "database.html", foods=pull_items(), active_page="database"
             )
+        elif "food_select" in values:
+            # Post Method -> "REMOVE" form has been submitted
+
+            # Removes from the database
+            remove_item(str(request.form.get("food_select")))
+
+            # Renders the page
+            return render_template(
+                "database.html", foods=pull_items(), active_page="database"
+            )
+
         else:
             # Catch-all, re-renders the page
             render_template("database.html", foods=pull_items(), active_page="database")
