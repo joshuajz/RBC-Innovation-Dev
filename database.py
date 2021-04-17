@@ -2,24 +2,38 @@ import sqlite3
 import os
 
 
-def add_item(food, food_type, description=None, image_location=None, image_link=None):
+def add_item(
+    food,
+    food_type,
+    recipe,
+    description=None,
+    image_location=None,
+    image_link=None,
+    recipe_source=None,
+):
     """Adds an item to the database."""
 
-    # Checks to ensure a food and food_type has been provided
-    if not food or not food_type:
+    # Checks to ensure a food, food_type, and recipe have been included
+    if not food or not food_type or not recipe:
         return False
 
     # Pulls a database connection
     database = database_connection()
 
-    print(food, food_type, description, image_location, image_link)
-
     # Attemtps to write to the database
     try:
         # Inserts into the database
         database["db"].execute(
-            "INSERT INTO food (food, description, type, image_location, image_link) VALUES (?, ?, ?, ?, ?)",
-            (food, description, food_type, image_location, image_link),
+            "INSERT INTO food (food, description, type, image_location, image_link, recipe, recipe_source) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (
+                food,
+                description,
+                food_type,
+                image_location,
+                image_link,
+                recipe,
+                recipe_source,
+            ),
         )
 
         # Commits the changes to the database
@@ -33,13 +47,17 @@ def add_item(food, food_type, description=None, image_location=None, image_link=
 
 
 def pull_items():
-    """Returns all of the items in the database"""
+    """Returns all of the items in the database."""
+
+    # Database connection
     database = database_connection()
 
+    # All of the items
     items = database["db"].execute("SELECT * FROM food").fetchall()
 
     foods = []
 
+    # Creates a list with only the values we want
     for food in items:
         foods.append(
             {
@@ -54,19 +72,37 @@ def pull_items():
     return foods
 
 
-def find_item(food_id=None, food=None):
-    """Find's an item with an id or food name."""
+def return_foods():
+    """Returns an alphabetized list of all of the foods in the database."""
+
+    # Database connection
     database = database_connection()
 
-    if not database:
-        return False
+    # List of all of the foods
+    foods = [
+        food[0] for food in database["db"].execute("SELECT food FROM food").fetchall()
+    ]
 
+    # Sort them alphabeticlly
+    foods.sort()
+
+    return foods
+
+
+def find_item(food_id=None, food=None):
+    """Find's an item with an id or food name."""
+
+    # Database connection
+    database = database_connection()
+
+    # Pulls based off a food id
     if food_id:
         data = (
             database["db"]
             .execute("SELECT * FROM food WHERE id = (?)", (food_id,))
             .fetchone()
         )
+    # Pulls based off the name of the food
     elif food:
         data = (
             database["db"]
@@ -77,20 +113,29 @@ def find_item(food_id=None, food=None):
     if not data:
         return False
 
+    # Returns the information
     try:
-        data = data[0]
         return {
             "id": data[0],
             "food": data[1],
             "description": data[2],
             "type": data[3],
+            "image_location": data[4],
+            "image_link": data[5],
+            "recipe": data[6],
+            "recipe_source": data[7],
         }
     except:
         return False
 
 
 def check_database():
-    """Checks for a database connection on startup.  Will return the database connection and cursor."""
+    """Checks for a database connection on startup.  Will return the database connection and cursor.
+    Will also check to ensure there is a database folder in the static/images directory."""
+
+    # Creates a database folder if there isn't one
+    if not os.path.exists(f"{os.getcwd()}/static/images/database"):
+        os.mkdir(f"{os.getcwd()}/static/images/database")
 
     if os.path.exists(f"{os.getcwd()}/database.db"):
         # Database exists, return a connection
@@ -134,7 +179,9 @@ def create_database():
             "description"	TEXT,
             "type"	TEXT NOT NULL,
             "image_location" TEXT,
-            "image_link" TEXT
+            "image_link" TEXT,
+            "recipe" TEXT,
+            "recipe_source" TEXT
         );"""
     )
 

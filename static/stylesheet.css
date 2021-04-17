@@ -1,3 +1,4 @@
+/* General formatting for the body of each page */
 body {
   background-color: #fff;
   margin: auto;
@@ -5,29 +6,36 @@ body {
   padding: 10px;
 }
 
+/* Settings for a <a> with the hover-img class */
 a .hover-img {
   position: relative;
 }
+
+/* Settings for the location of the image displayed when hovering */
 a .hover-img span {
   position: absolute;
   left: -10000px;
   top: -10000px;
   z-index: 2;
 }
+
+/* How much padding is added to the image (ie. how close it is to the actual text where the hovered image is rendered from. */
 a:hover .hover-img span {
   top: 33px;
   left: 0;
 }
 
-form {
+/* Settings for the 'Add Form' */
+.add_form {
   box-sizing: border-box;
   position: fixed;
   border: 3px solid #888;
   z-index: 1;
-  max-width: 350px;
+  max-width: 500px;
   padding: 5px;
 }
 
+/* Sets the default for the form as not displayed */
 #add_form {
   display: none;
 }

@@ -1,0 +1,72 @@
+<!-- Template to be used by other pages. -->
+<!DOCTYPE html>
+
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8'>
+
+    <!-- Sets the website's icon -->
+    <link rel='icon' href='static/images/website_icon.png'>
+
+    <!-- Bootstrap Stylesheet -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- Sets metadata -->
+    <meta name='description' content='RBC Take Home Assignment'>
+    <meta name='author' content='Josh Cowan'>
+
+    <!-- Links the stylesheet -->
+    <link rel='stylesheet' href='/static/stylesheet.css'>
+
+    <!-- Sets the title of the website based off Flask -->
+    <title>{% block title %}{% endblock %}</title>
+
+</head>
+
+<body>
+    <!-- Creates the top navagational Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- Logo in the nav-bar -->
+        <img src='static/images/website_icon.png' alt='logo'
+            style='width: 45px; height: 45px; padding-top: 0; padding-bottom: 0; margin-left: 1rem'
+            class='navbar-brand'>
+        <a class="navbar-brand" href="/">Recipes</a>
+
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <!-- Determines which of the two pages is 'active' based off a variable passed in with flask. -->
+                <!-- Then it sets the correct button to 'active', which displays it as slightly bolded. -->
+                <li class='nav-item'>
+                    <a href='/' {% if active_page=='index' %} class='nav-link active' {% else %} class='nav-link' {%
+                        endif %}>Home</a>
+                </li>
+                <li class="nav-item>">
+                    <a href="/database" {% if active_page=='database' %} class='nav-link active' {% else %}
+                        class='nav-link' {% endif %}>Database</a>
+                </li>
+
+        </div>
+    </nav>
+    <!-- Main part of the website to be filled with flask. -->
+    <main class="container p-5">
+        {% block main %}{% endblock %}
+    </main>
+</body>
+
+</html>
+
+
+</html>

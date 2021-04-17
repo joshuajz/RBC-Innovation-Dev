@@ -1,0 +1,142 @@
+<!-- Uses the 'layout.html' template and sets the title -->
+{% extends "layout.html" %}
+{% block title %}Database{% endblock %}
+
+{% block main %}
+
+
+<head>
+    <script>
+        /* When the form is opened, we display it using the HTML 'block' type */
+        function formOpen(div_name) {
+            document.getElementById(div_name).style.display = 'block';
+        }
+
+        /* When the form is closed, we no longer display the element, and we clear the form of any current values */
+        function formClose(div_name, form_name) {
+            document.getElementById(div_name).style.display = 'none';
+            document.getElementById(form_name).reset();
+        }
+    </script>
+
+</head>
+
+<body>
+    <!-- Creates a database table -->
+    <table class='table'>
+        <tr>
+            <th scope='col'>ID</th>
+            <th scope='col'>Food</th>
+            <th scope='col'>Description</th>
+            <th scope='col'>Type</th>
+        </tr>
+        <!-- Loops through every food provided by Flask -->
+        {% for food in foods %}
+        <tr>
+            <!-- Adds the food's ID -->
+            <td>{{food['id']}}</td>
+
+            <!-- Provides the "image hoverable" name of the food -->
+            <td>
+                <a href="#">
+                    <!-- If the food has an image location, add the image using <a> -->
+                    {% if food['image_loc'] and food['image_loc'] != 0 %}
+                    <!-- Add the link to the recipe page (if you click the name of the food, it will redirect to the recipe) -->
+                    <a href='recipe?recipe={{food["food"]}}'>
+                        <div class='hover-img'>{{food['food']}}
+                            <span>
+                                <!-- Image -->
+                                <img src={{food['image_loc']}} alt={{food['food']}} height='200'>
+                            </span>
+                        </div>
+                    </a>
+                    {% else %}
+                    <!-- Only add the redirect for the recipe, as there is no image. -->
+                    <a href='recipe?recipe={{food["food"]}}'>
+                        <div>{{food['food']}}</div>
+                    </a>
+                    {% endif %}
+                </a>
+            </td>
+
+            <!-- Add the food's description and type.  Will be blank if there isn't one. -->
+            <td>{{food['description']}}</td>
+            <td>{{food['food_type']}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Handles the "Add" button and it's corrosponding form -->
+
+    <!-- Button to add an item, displays the form on click -->
+    <button type="button" class="btn btn-primary" onclick='formOpen("add_form")'>Add Item</button>
+
+    <!-- Popup form -->
+    <div class='form-popup' id='add_form'>
+        <form id='add_form_actual' action='/database' method='POST' class='add_form'>
+            <h2>Add an Item</h2>
+
+            <!-- List of values to be provided by the user -->
+            <table>
+                <tr>
+                    <td align='right'> <label style='margin-top: 5px'><b>Food:</b></label></td>
+                    <td align='left'> <input type='text' placeholder='ex: Apple Pie' name='food' required
+                            style='width:350px'><br></td>
+                </tr>
+
+                <tr>
+                    <td align='right'><label style='margin-top: 5px'><b>Description:</b></label></td>
+                    <td align='left'> <input type='text' placeholder='ex: Created with apples.' name='description'
+                            style='width:350px'>
+                        <br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align='right'><label style='margin-top: 5px'><b>Type:</b></label></td>
+                    <td align='left'><input type='text' placeholder='ex: Dessert' name='food_type' style='width:350px'>
+                        <br>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td align='right'><label style='margin-top: 5px'><b>Image:</b></label></td>
+                    <td align='left'><input type='text' placeholder='Image Link (optional)' name='image'
+                            style='width:350px'>
+                        <br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align='right'><label style='margin-top: 5px'><b>Recipe:</b></label></td>
+                    <td align='left'><textarea type='text' placeholder='Enter the Recipe' name='recipe'
+                            style='width: 350px'></textarea></td>
+                </tr>
+
+                <tr>
+                    <td align='right'><label style='margin-top: 5px'><b>Recipe Source:</b></label></td>
+                    <td align='left'><input type='url' placeholder='Link to the recipe' name='recipe_link'
+                            style='width:350px'>
+                        <br>
+                    </td>
+                </tr>
+
+            </table>
+
+            <!-- Button to submit, and a button to cancel. -->
+            <!-- Submit button doesn't close the form, as the user will be redirected back to the database.html part of the site -->
+            <button type='submit' class='btn btn-success'>Submit</button>
+
+            <!-- Cancel button closes the form -->
+            <button type='button' class='btn btn-danger'
+                onclick='formClose("add_form", "add_form_actual")'>Cancel</button>
+
+        </form>
+    </div>
+</body>
+
+</html>
+
+{% endblock %}

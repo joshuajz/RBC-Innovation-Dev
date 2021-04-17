@@ -1,0 +1,38 @@
+<!-- Uses the 'layout.html' template and sets the title -->
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+
+{% block main %}
+
+<!-- Creates two divs beside eachother -->
+<div class='container'>
+    <div class='row'>
+        <!-- Div A: stores the name of the food, type of the food, and an image of the food -->
+        <div class='col-sm-6'>
+            <h3>{{values['food']}}</h3>
+            <h5>Type: {{values['type']}}</h5>
+            <!-- Only includes the link to a recipe source if there is one provided in the DB -->
+            {% if values['recipe_source'] %}
+            Link: <a href='{{values["recipe_source"]}}' target='_blank'>{{values['recipe_source']}}</a>
+            {% endif %}
+
+            <!-- Only displays an image if there is one (to prevent the blank image icon) -->
+            {% if values['image_location'] %}
+            <img src='{{values["image_location"]}}' height='300px' style='margin: 40px left'>
+            {% endif %}
+        </div>
+
+        <!-- Div B: displays the recipe -->
+        <div class='col-sm-6'>
+            <!-- Since HTML doesn't use \n, we must loop through the text and create a new <p> for each newline. -->
+            <p>Recipe:
+                {% for text in values['recipe'].split("\n") %}
+            <p>{{text}}</p>
+            {% endfor %}
+            </p>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
