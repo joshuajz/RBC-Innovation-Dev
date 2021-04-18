@@ -80,7 +80,7 @@
 
 
     <!-- "Add Item" Popup form -->
-    <div class='form-popup' id='add_form'>
+    <div id='add_form' style='width: 700px'>
         <form id='add_form_actual' action='/database' method='POST' class='add_form'>
             <h2>Add an Item</h2>
 
@@ -89,20 +89,20 @@
                 <tr>
                     <td align='right'> <label style='margin-top: 5px'><b>Food:</b></label></td>
                     <td align='left'> <input type='text' placeholder='ex: Apple Pie' name='food' required
-                            style='width:350px'><br></td>
+                            style='width:550px'><br></td>
                 </tr>
 
                 <tr>
                     <td align='right'><label style='margin-top: 5px'><b>Description:</b></label></td>
                     <td align='left'> <input type='text' placeholder='ex: Created with apples.' name='description'
-                            style='width:350px'>
+                            style='width:550px'>
                         <br>
                     </td>
                 </tr>
 
                 <tr>
                     <td align='right'><label style='margin-top: 5px'><b>Type:</b></label></td>
-                    <td align='left'><input type='text' placeholder='ex: Dessert' name='food_type' style='width:350px'>
+                    <td align='left'><input type='text' placeholder='ex: Dessert' name='food_type' style='width:550px'>
                         <br>
                     </td>
 
@@ -111,7 +111,7 @@
                 <tr>
                     <td align='right'><label style='margin-top: 5px'><b>Image:</b></label></td>
                     <td align='left'><input type='text' placeholder='Image Link (optional)' name='image'
-                            style='width:350px'>
+                            style='width:550px'>
                         <br>
                     </td>
                 </tr>
@@ -119,13 +119,13 @@
                 <tr>
                     <td align='right'><label style='margin-top: 5px'><b>Recipe:</b></label></td>
                     <td align='left'><textarea type='text' placeholder='Enter the Recipe' name='recipe'
-                            style='width: 350px'></textarea></td>
+                            style='width: 550px'></textarea></td>
                 </tr>
 
                 <tr>
                     <td align='right'><label style='margin-top: 5px'><b>Recipe Source:</b></label></td>
                     <td align='left'><input type='url' placeholder='Link to the recipe' name='recipe_link'
-                            style='width:350px'>
+                            style='width:550px'>
                         <br>
                     </td>
                 </tr>
@@ -146,13 +146,13 @@
 
 
     <!-- Popup form -->
-    <div class='form-popup' id='remove_form'>
+    <div id='remove_form' style='width:300px'>
         <form id='remove_form_actual' action='/database' method='POST' class='add_form'>
             <h2>Remove an Item</h2>
 
             <select name='food_select' id='food_select'>
                 {% for food in foods %}
-                <option value={{food['food']}}>{{food['food']}}</option>
+                <option>{{food['food']}}</option>
                 {% endfor %}
             </select>
 
