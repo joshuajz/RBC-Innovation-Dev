@@ -134,7 +134,6 @@ def database_page():
             )
         elif "food_select" in values:
             # Post Method -> "REMOVE" form has been submitted
-            print(request.form.get("food_select"))
 
             # Removes from the database
             remove_item(str(request.form.get("food_select")))
